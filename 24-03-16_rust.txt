@@ -1,0 +1,10 @@
+cargo build
+cargo build --release
+cargo run
+cargo check
+cargo new
+
+cargo build --release -> target/release 에 실행파일이 생김
+개발중엔 작업의 흐름을 끊지 않기위해 빌드속도가 빠를수록 좋지만 (cargo build)
+릴리즈 할 경우엔 작동속도가 더 중요함 (cargo build --release)
+-> 이러한 이유로 벤치마킹할땐 cargo uild --release 기준으로!!
