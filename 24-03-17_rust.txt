@@ -1,0 +1,77 @@
+use std::io; -> prelude 에 없어서 가져온것으로 보임
+java.lang -> prelude 로 rust에서 가져오는 것과 비슷한 느낌
+fn -> 새로운 함수 선언용 예약어
+
+```rust
+let mut guess = String::new();
+```
+변수 만들때 let 예약어 사용
+러스트에서 변수는 기본적으로 불변(immutable)
+그러나 가변(mutable)하게 만드려면, 변수명 앞에 mut을 추가해야됨 ("mut"able)
+    주석 : // 으로 해당 위치부터 그 줄의 끝까지 주석임을 표기
+
+```rust
+String::new() -> 새로운 String 인스턴스를 만듬
+```
+::new 에 있는 :: 는 new 가 String 타입의 연관 함수(associated function) 임을 나타냄
+> 연관함수 : 어떤 타입에 구현된 함수
+자바에서 new String() -> 생성자 호출이지만,
+러스트에서 String::new() -> String 이라는 타입 아래에 있는 new 함수를 호출한다는 의미같음
+
+
+> mac 에서 backtick 사용하고싶으면 (option or fn) + ~ 하면 됨!!
+> backtick -> markdown 에서 코드블럭 으로 사용
+
+```rust
+    io::Stdin()
+        .read_line(&mut guess)
+        .expect("Failed to read line");
+```
+.read_line -> Stdin 인스턴스로부터 .read_line 메서드 호출
+read_line 은 입력된 문자를 받아서 문자열에 추가하는 것이기 때문에 문자열을 넘겨준것임, 메서드가 문자열 내용을 바꿀수 있기 때문에 가변이어야 함 <<< 스킵해도 됨,,
+
+&는 코드의 여러부분에서 데이터를 여러번 메모리로 복사하지 않고 접근하기 위한 방법을 제공하는 참조자 (reference) 임을 나타냄
+일단 지금은 참조자가 일반 변수처럼 불변이 기본값임을 알면 됨
+
+1,2,3 번째 라인으로 나뉘어져 있지만, 논리적으로 저 3줄은 하나의 문장임
+.expect()
+read_line() 메서드는 하나의 Result 값을 enum으로 넘겨줌 (enum : 여러개의 가능한 상태(state) 중 하나의 값이 될수 있는 타입,, 항상 보던 그거 | 또한 이러한 상태값을 배리언트(variant) 라고 부름)
+Result 의 variant 는 Ok, Err 두개임, Err -> expect() 에 parameter 로 넘긴 메시지를 출력함, Ok -> 해당 값을 사용하게 함
+만약 expenct()를 호출 안하면, 컴파일은 되지만 오류가 생김 (너 왜 Result 있는데 사용 안했어?)
+> Wrapper 로 한번더 결과값을 감싼건가?
+
+```rust
+println!("You guessed: {guess}");
+```
+{} 는 자리표시자(placeholder) 임; 해당 위치에 변수의 값을 출력해주고 싶으면 {variable_name} 해주면 됨
+```rust
+let x = 5;
+let y = 10;
+println!("x = {x} and y + 2 = {}", y + 2);
+```
+
+cargo run 으로 작동 확인
+
+crate -> 러스트 코드 파일들의 모음,
+우리가 만들고 있는 프로젝트 (guess game) 은 실행이 가능한 바이너리 크레이트(binary crate) 임
+
+랜덤으로 숫자를 가져오기 위해 rand 크레이트를 가져와야 함
+
+해당 프로젝트에 크레이트를 가져오기 위해 Cargo.toml 을 수정해야함 (의존성)
+
+Cargo.toml 파일에서 어떤 섹션 헤더 이후의 모든 내용은 그 섹션에 포함되고, 이는 다음 섹션이 나타날때까지 계속됨
+헤더 예 : [dependencies] 등
+
+유의적 버전 (Semantic Versioning)
+카고는 버전 명시의 표준인 (SemVer 라고도 불리는) 유의적 버전을 이해함
+[dependencies]
+rand = "0.8.5"
+지정자 0.8.5 는 실제로는 ^0.8.5 의 축양형임 -> 최소 0.8.5 이상이고, 0.9.0 이하의 모든 버전을 의미함
+카고는 이 버전들이 0.8.5 와 호환되는 공개 API 를 갖추고 있다고 간주하고, 이 버전지정은 이 장의 코드와 함께 컴파일될 **최신** 패치판을 받게 될것임을 보장함
+
+
+
+
+
+
+
